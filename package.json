@@ -27,7 +27,7 @@
   "dependencies": {
   },
   "scripts": {
-       "install": "node-waf configure build",
+       "install": "make",
        "test": "make test" 
   }
 }
