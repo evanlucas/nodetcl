@@ -533,5 +533,5 @@ extern "C" {
     NodeTcl::Init(target);
   }
 
-  NODE_MODULE(nodetcl, init);
+  NODE_MODULE(nodetcl, init)
 }
