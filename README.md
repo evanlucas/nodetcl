@@ -9,8 +9,7 @@ This is especially useful for leveraging existing Tcl code or packages in a new 
 
 Just run `make` and a shared-library named `nodetcl.node` will be created.
 
-Compilation has only been tested on FreeBSD 8.2 with node-0.4.12 and tcl-8.5.10.
-
+Tested on OS X 10.8.2
 
 ## Example
 
