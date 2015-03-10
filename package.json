@@ -2,6 +2,7 @@
   "name": "nodetcl",
   "description": "Node extension that embeds a Tcl interpreter within the Node.JS environment",
   "version": "0.0.1",
+  "main": "index.js",
   "author": "Jeff Lawson <jeff@bovine.net>",
   "maintainers": [
        { 
