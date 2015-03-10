@@ -1,1 +1,1 @@
-module.exports = require('bindings')('nodetcl.node')
+module.exports = require('bindings')('nodetcl.node').NodeTcl
