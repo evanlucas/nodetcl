@@ -5,30 +5,32 @@
   "main": "index.js",
   "author": "Jeff Lawson <jeff@bovine.net>",
   "maintainers": [
-       { 
-           "name": "Jeff Lawson",
-           "email": "jeff@bovine.net"
-       }
+    {
+      "name": "Jeff Lawson",
+      "email": "jeff@bovine.net"
+    }
   ],
   "repositories": [
-       {
-           "type": "git", 
-           "url": "https://github.com/bovine/nodetcl.git" 
-       }
+    {
+      "type": "git",
+      "url": "https://github.com/bovine/nodetcl.git"
+    }
   ],
   "licenses": [
-       { 
-           "type": "BSD",
-           "url": "https://github.com/bovine/nodetcl/blob/master/LICENSE"
-       }
+    {
+      "type": "BSD",
+      "url": "https://github.com/bovine/nodetcl/blob/master/LICENSE"
+    }
   ],
-  "engines": [ 
-       "node" 
+  "engines": [
+    "node"
   ],
   "dependencies": {
+    "bindings": "~1.2.1",
+    "nan": "~1.7.0"
   },
   "scripts": {
-       "install": "make",
-       "test": "make test" 
+    "install": "make",
+    "test": "make test"
   }
 }
