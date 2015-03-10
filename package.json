@@ -4,6 +4,9 @@
   "version": "0.0.1",
   "main": "index.js",
   "author": "Jeff Lawson <jeff@bovine.net>",
+  "scripts": {
+    "test": "tap test"
+  },
   "maintainers": [
     {
       "name": "Jeff Lawson",
@@ -29,8 +32,7 @@
     "bindings": "~1.2.1",
     "nan": "~1.7.0"
   },
-  "scripts": {
-    "install": "make",
-    "test": "make test"
+  "devDependencies": {
+    "tap": "~0.7.1"
   }
 }
