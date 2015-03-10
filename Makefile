@@ -8,4 +8,4 @@ mac:
 
 clean:
 	node-gyp clean
-	rm nodetcl.node
+	rm -rf nodetcl.node
