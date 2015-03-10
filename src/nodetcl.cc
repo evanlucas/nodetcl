@@ -298,8 +298,8 @@ public:
     int i;
 
     for (i = 0; i < args.Length(); i++) {
-    Tcl_Obj* obj = jsToTcl(args[i], hw->m_interp);
-    Tcl_IncrRefCount(obj);
+      Tcl_Obj* obj = jsToTcl(args[i], hw->m_interp);
+      Tcl_IncrRefCount(obj);
       params[i] = obj;
     }
 
@@ -361,7 +361,8 @@ public:
       Tcl_LimitTypeReset(hw->m_interp, TCL_LIMIT_TIME);
     }
 
-    int cc = Tcl_EvalEx(hw->m_interp, (const char*)*String::Utf8Value(script), -1, 0);
+    const char* v = *String::Utf8Value(script);
+    int cc = Tcl_EvalEx(hw->m_interp, v, -1, 0);
     if (cc != TCL_OK) {
       Tcl_Obj *obj = Tcl_GetObjResult(hw->m_interp);
       return NanThrowError(Tcl_GetString(obj));
@@ -380,7 +381,7 @@ public:
   struct callback_data_t {
     NodeTcl *hw;
     Tcl_Command cmd;
-    Persistent<Function> jsfunc;
+    NanCallback *jsfunc;
   };
 
 
@@ -396,19 +397,17 @@ public:
 
     // Convert all of the arguments, but skip the 0th element (the procname).
 
-    Local<Value> jsArgv[] = {
-      tclToJs((Tcl_Obj*)objv[1], interp)
-    };
+    // This is horrible but the only way I've been able to
+    // get clang to compile and keep from aborting due to overflow
+    Handle<Value> jsArgv[5];
 
-    for (int i = 2; i < objc; i++) {
+    for (int i = 1; i < objc; i++) {
       jsArgv[i - 1] = tclToJs((Tcl_Obj*)objv[i], interp);
     }
 
     // Execute the JavaScript method.
     TryCatch try_catch;
-    //Local<Value> result = NanMakeCallback(cbdata, "jsfunc", objc - 1, jsArgv);
-    Local<Function> func = NanNew(cbdata->jsfunc);
-    Local<Value> result = func->Call(NanGetCurrentContext()->Global(), objc - 1, jsArgv);
+    Local<Value> result = cbdata->jsfunc->Call(objc - 1, jsArgv);
 
     // If a JavaScript exception occurred, send back a Tcl error.
     if (try_catch.HasCaught()) {
@@ -433,7 +432,7 @@ public:
       // append the full stack trace if it was present.
       v8::String::Utf8Value stack_trace(try_catch.StackTrace());
       if (stack_trace.length() > 0) {
-	Tcl_AddErrorInfo(interp, *stack_trace);
+        Tcl_AddErrorInfo(interp, *stack_trace);
       }
 
       return TCL_ERROR;
@@ -452,9 +451,7 @@ public:
   {
     callback_data_t *cbdata = static_cast<callback_data_t*>(clientData);
 
-    //cbdata->jsfunc.Dispose();
     cbdata->hw->Unref();
-
     delete cbdata;
   }
 
@@ -482,9 +479,7 @@ public:
 
     callback_data_t *cbdata = new callback_data_t();
     cbdata->hw = hw;
-    //Local<Function> jsf = NanNew<Function>(jsfunc);
-    NanAssignPersistent(cbdata->jsfunc, jsfunc);
-    //cbdata->jsfunc = Persistent<Function>::New(jsfunc);
+    cbdata->jsfunc = new NanCallback(jsfunc);
     cbdata->cmd = Tcl_CreateObjCommand(hw->m_interp, (const char*)*String::Utf8Value(cmdName), CallbackTrampoline, (ClientData) cbdata, CallbackDelete);
 
     hw->Ref();
