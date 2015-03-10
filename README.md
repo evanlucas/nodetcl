@@ -7,17 +7,15 @@ This is especially useful for leveraging existing Tcl code or packages in a new 
 
 ## Installation
 
-Just run `make` and a shared-library named `nodetcl.node` will be created.
-
-Tested on OS X 10.8.2
+Tested on OS X 10.8+
 
 ## Example
 
 Included is an `example1.js` which contains the following:
 
 ```js
-var tcl = require('./nodetcl.node');
-var interp = new tcl.NodeTcl();
+var tcl = require('nodetcl');
+var interp = new tcl();
 console.log(interp.eval("expr 6*7"));
 ```
 
