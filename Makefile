@@ -2,8 +2,8 @@ all:
 	make mac
 
 mac:
-	CXX=g++ node-gyp configure
-	CXX=g++ node-gyp build
+	node-gyp configure
+	node-gyp build
 	ln -s build/Release/nodetcl.node nodetcl.node
 
 clean:
