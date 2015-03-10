@@ -4,15 +4,16 @@
 // value returned back to JavaScript.
 //
 
-var tcl = require('./nodetcl.node');
-var interp = new tcl.NodeTcl();
+var tcl = require('../')
+var interp = new tcl()
 
 interp.proc("simpleCallback", function(arg1, arg2) {
-    console.log("I got the callback!");
-    console.log("Our arguments were: " + arg1 + ", " + arg2);
-    return "arbitrary result";
-});
+    console.log("I got the callback!")
+    console.log("Our arguments were: " + arg1 + ", " + arg2)
+    return "arbitrary result"
+})
 
-var result = interp.eval("simpleCallback alpha bravo");
-console.log(result);
+var result = interp.call('simpleCallback', 'alpha', 'bravo')
+//var result = interp.eval("simpleCallback alpha bravo")
+console.log(result)
 

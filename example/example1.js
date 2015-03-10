@@ -3,8 +3,12 @@
 // simple Tcl command from JavaScript.
 //
 
-var tcl = require('./nodetcl.node');
-var interp = new tcl.NodeTcl();
-console.log(interp.eval("expr 6*7")); 
+var tcl = require('../')
+var interp = new tcl()
 
+var args = process.argv.splice(2)
+if (args.length < 2) {
+  throw new Error('At least two args are required')
+}
 
+console.log(interp.eval(`expr ${args[0]}*${args[1]}`))
